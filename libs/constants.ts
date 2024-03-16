@@ -1,6 +1,10 @@
-import { Logger } from '@nestjs/common';
+import EventEmitter2 from 'eventemitter2';
 import { LogEntry, logCreator, logLevel } from 'kafkajs';
+import { Logger } from '@nestjs/common';
 
+export const emitter = new EventEmitter2();
+export const createKafkaMessageEvent = (topic: string) => ['kafka', 'message', topic].join('.');
+export const createKafkaBatchEvent = (topic: string) => ['kafka', 'batch', topic].join('.');
 export const createKafkaLogger: logCreator = (_: logLevel) => {
   return ({ namespace, level, log }: LogEntry) => {
     let method: keyof Logger;
