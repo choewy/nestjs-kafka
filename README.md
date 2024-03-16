@@ -8,6 +8,120 @@ npm i @choewy/nestjs-kafka
 
 > `app.enableShutdownHooks()` is essential when using the consumer
 
+## Options
+
+### Kafka Producer Options
+
+```ts
+import { ProducerConfig } from 'kafkajs';
+
+export interface KafkaProducerOptions extends ProducerConfig {
+  use: boolean;
+  logging?: boolean;
+}
+```
+
+### Kafka Admin Options
+
+```ts
+import { AdminConfig } from 'kafkajs';
+
+export interface KafkaAdminOptions extends AdminConfig {
+  use: boolean;
+}
+```
+
+### Kafka Consumer Options
+
+```ts
+import { ConsumerConfig, ConsumerRunConfig, ConsumerSubscribeTopics } from 'kafkajs';
+
+export interface KafkaConsumerOptions extends ConsumerConfig {
+  subscriptions?: ConsumerSubscribeTopics;
+  runOptions?: Omit<ConsumerRunConfig, 'eachMessage' | 'eachBatch'>;
+  logging?: boolean;
+}
+```
+
+### Kafka Module Options
+
+```ts
+import { KafkaConfig } from 'kafkajs';
+
+import { KafkaAdminOptions } from './kafka-admin-options.interface';
+import { KafkaConsumerOptions } from './kafka-consumer-options.interface';
+import { KafkaProducerOptions } from './kafka-producer-options.interface';
+
+export interface KafkaModuleOptions extends KafkaConfig {
+  consumer?: KafkaConsumerOptions;
+  producer?: KafkaProducerOptions;
+  admin?: KafkaAdminOptions;
+  global?: boolean;
+}
+```
+
+## Uses
+
+### Producer
+
+```ts
+import { Module } from '@nestjs/common';
+import { KafkaModule } from '@choewy/nestjs-kafka';
+
+@Module({
+  import: [
+    KafkaModule.register({
+      producer: { use: true },
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+### Consumer
+
+```ts
+import { Module, OnModuleInit } from '@nestjs/common';
+import { KafkaModule, KafkaConsumer } from '@choewy/nestjs-kafka';
+
+@Module({
+  import: [
+    KafkaModule.register({
+      clientId: 'app-1',
+      consumer: { groupId: 'group-1' },
+    }),
+  ],
+})
+export class AppModule implements OnModuleInit {
+  constructor(private readonly consumer: KafkaConsumer) {}
+
+  async onModuleInit() {
+    await this.consumer.subscribe({ topics: ['topic-1', 'topic-2'] });
+    await this.consumer.run();
+  }
+}
+```
+
+KafkaConsumer can subscribe topics without `OnModuleInit` using the `consumer.subscriptions` option.
+
+```ts
+import { Module } from '@nestjs/common';
+import { KafkaModule, KafkaConsumer } from '@choewy/nestjs-kafka';
+
+@Module({
+  import: [
+    KafkaModule.register({
+      clientId: 'app-1',
+      consumer: {
+        groupId: 'group-1',
+        subscriptions: { topics: ['topic-1', 'topic-2'] },
+      },
+    }),
+  ],
+})
+export class AppModule {}
+```
+
 ## Example
 
 ### Run kafak with docker
@@ -38,7 +152,7 @@ import { ProducerController } from './producer.controller';
     KafkaModule.register({
       clientId: 'kafka-consumer',
       brokers: ['localhost:29092'],
-      producer: { allowAutoTopicCreation: true },
+      producer: { use: true, allowAutoTopicCreation: true },
     }),
   ],
   controllers: [ProducerController],
