@@ -3,6 +3,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  /** It is essential when using the consumer */
+  app.enableShutdownHooks();
+
   await app.listen(3000);
 }
+
 bootstrap();

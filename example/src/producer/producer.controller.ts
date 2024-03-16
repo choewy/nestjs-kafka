@@ -5,8 +5,18 @@ import { ProducerService } from './producer.service';
 export class ProducerController {
   constructor(private readonly producerService: ProducerService) {}
 
-  @Get()
-  async sendHello(): Promise<void> {
-    return this.producerService.sendHello();
+  @Get('1')
+  async sendMessageTopicOne(): Promise<void> {
+    return this.producerService.sendMessageTopicOne();
+  }
+
+  @Get('2')
+  async sendMessageTopicTwo(): Promise<void> {
+    return this.producerService.sendMessageTopicTwo();
+  }
+
+  @Get('3')
+  async sendMessageTopicThree(): Promise<void> {
+    return this.producerService.sendMessageTopicThree();
   }
 }
