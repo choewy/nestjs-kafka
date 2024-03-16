@@ -11,6 +11,7 @@ import { KafkaProducer } from './kafka.producer';
       clientId: 'KAFKA_CLIENT',
       brokers: ['localhost:29092'],
       producer: {
+        use: true,
         allowAutoTopicCreation: true,
       },
       consumer: {
