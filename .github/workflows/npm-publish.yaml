@@ -5,28 +5,7 @@ on:
     tags: [v*]
 
 jobs:
-  patch:
-    runs-on: ubuntu-22.04
-
-    env:
-      TAG: ${{ github.ref_name }}
-
-    strategy:
-      matrix:
-        node: [20]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-      - run: |
-          npm version $TAG
-          git push
-
   publish:
-    needs: patch
-
     runs-on: ubuntu-22.04
 
     strategy:
@@ -41,7 +20,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          tag: ${{ github.ref_name }}
+          email: ${{ secrets.USER_EMAIL }}
+          name: ${{ secrets.USER_NAME }}
       - run: |
+          git config --local user.email "$email"
+          git config --local user.name "$name"
+          npm version $tag
           npm ci
           npm build
           npm publish
