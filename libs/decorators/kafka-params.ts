@@ -51,7 +51,7 @@ export const KafkaBatchMessagesParam = (): ParameterDecorator => (target, _prope
   Reflect.defineMetadata(metadataKey, (Reflect.getMetadata(metadataKey, target) ?? []).concat(metadataValue), target);
 };
 
-export const extractKafkaMessageParamMetadata = (target: Object) => {
+export const extractKafkaMessageParamMetadata = (target: unknown) => {
   const paramsMetadatas: Array<KafkaParamMetadataType<KafkaMetadataKey.MessagePayloadParam | KafkaMetadataKey.MessageParam>> = []
     .concat(Reflect.getMetadata(KafkaMetadataKey.MessageParam, target) ?? [])
     .concat(Reflect.getMetadata(KafkaMetadataKey.MessagePayloadParam, target) ?? [])
@@ -60,7 +60,7 @@ export const extractKafkaMessageParamMetadata = (target: Object) => {
   return paramsMetadatas;
 };
 
-export const extractKafkaBatchParamMetadata = (target: Object) => {
+export const extractKafkaBatchParamMetadata = (target: unknown) => {
   const paramsMetadatas: Array<
     KafkaParamMetadataType<KafkaMetadataKey.BatchPayloadParam | KafkaMetadataKey.BatchMessagesParam | KafkaMetadataKey.BatchParam>
   > = []

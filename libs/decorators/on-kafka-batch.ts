@@ -1,11 +1,11 @@
+import { KafkaMetadataKey } from './enums';
+import { extractKafkaBatchParamMetadata } from './kafka-params';
+import { OnKafkaHandlerReturnType } from './types';
 import { createKafkaBatchEvent, emitter } from '../constants';
 import { KafkaBatchPayload } from '../implements';
-import { OnKafkaHandlerReturnType } from './types';
-import { extractKafkaBatchParamMetadata } from './kafka-params';
-import { KafkaMetadataKey } from './enums';
 
 export const OnKafkaBatch = (topic: string): MethodDecorator => {
-  return (target: Object, _propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
+  return (target: unknown, _propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const contextHandler = descriptor.value;
     const emitterHandler = async function (batchPayload: KafkaBatchPayload) {
       const handlerArgs = [];

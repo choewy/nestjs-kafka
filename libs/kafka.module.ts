@@ -1,10 +1,11 @@
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
+
 import { createKafkaLogger } from './constants';
 import { KafkaModuleAsyncOptions, KafkaModuleOptions } from './interfaces';
-import { KafkaProducer } from './kafka.producer';
-import { KafkaConsumer } from './kafka.consumer';
 import { KafkaAdmin } from './kafka.admin';
+import { KafkaConsumer } from './kafka.consumer';
+import { KafkaProducer } from './kafka.producer';
 
 @Module({})
 export class KafkaModule {

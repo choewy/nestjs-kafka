@@ -1,4 +1,5 @@
 import { EachBatchPayload, Offsets, OffsetsByTopicPartition } from 'kafkajs';
+
 import { KafkaBatch } from './kafka-batch';
 
 export class KafkaBatchPayload {

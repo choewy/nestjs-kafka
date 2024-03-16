@@ -1,8 +1,9 @@
-import { KafkaConfig } from 'kafkajs';
 import { ModuleMetadata } from '@nestjs/common';
+import { KafkaConfig } from 'kafkajs';
+
+import { KafkaAdminOptions } from './kafka-admin-options.interface';
 import { KafkaConsumerOptions } from './kafka-consumer-options.interface';
 import { KafkaProducerOptions } from './kafka-producer-options.interface';
-import { KafkaAdminOptions } from './kafka-admin-options.interface';
 
 export interface KafkaModuleOptions extends KafkaConfig {
   consumer?: KafkaConsumerOptions;

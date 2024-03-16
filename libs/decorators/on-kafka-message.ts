@@ -1,11 +1,11 @@
+import { KafkaMetadataKey } from './enums';
+import { extractKafkaMessageParamMetadata } from './kafka-params';
+import { OnKafkaHandlerReturnType } from './types';
 import { createKafkaMessageEvent, emitter } from '../constants';
 import { KafkaMessagePayload } from '../implements';
-import { OnKafkaHandlerReturnType } from './types';
-import { extractKafkaMessageParamMetadata } from './kafka-params';
-import { KafkaMetadataKey } from './enums';
 
 export const OnKafkaMessage = (topic: string): MethodDecorator => {
-  return (target: Object, _propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
+  return (target: unknown, _propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const contextHandler = descriptor.value;
     const emitterHandler = async function (messagePayload: KafkaMessagePayload) {
       const handlerArgs = [];

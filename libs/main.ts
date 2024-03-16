@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { KafkaModule } from './kafka.module';
 import { KafkaMessageParam, OnKafkaMessage } from './decorators';
+import { KafkaModule } from './kafka.module';
 import { KafkaProducer } from './kafka.producer';
 
 @Module({

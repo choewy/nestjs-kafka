@@ -1,10 +1,11 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Consumer, ConsumerRunConfig, ConsumerSubscribeTopics, Kafka } from 'kafkajs';
-import { KafkaConsumerOptions } from './interfaces';
-import { createKafkaMessageEvent, emitter } from './constants';
 import { EachMessagePayload, EachBatchPayload } from 'kafkajs';
-import { KafkaBatchPayload, KafkaMessagePayload } from './implements';
+
+import { createKafkaMessageEvent, emitter } from './constants';
 import { OnKafkaHandlerReturnType } from './decorators/types';
+import { KafkaBatchPayload, KafkaMessagePayload } from './implements';
+import { KafkaConsumerOptions } from './interfaces';
 
 @Injectable()
 export class KafkaConsumer implements Omit<Consumer, 'logger'>, OnModuleInit, OnModuleDestroy {

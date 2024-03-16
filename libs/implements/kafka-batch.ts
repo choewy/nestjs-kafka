@@ -1,4 +1,5 @@
 import { Batch } from 'kafkajs';
+
 import { KafkaMessage } from './kafka-message';
 
 export class KafkaBatch {

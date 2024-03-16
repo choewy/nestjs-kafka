@@ -1,4 +1,5 @@
 import { EachMessagePayload } from 'kafkajs';
+
 import { KafkaMessage } from './kafka-message';
 
 export class KafkaMessagePayload {
