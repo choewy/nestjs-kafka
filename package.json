@@ -2,7 +2,7 @@
   "name": "@choewy/nestjs-kafka",
   "version": "0.0.1",
   "description": "NestJS Kafka",
-  "main": "index.js",
+  "main": "dist/libs/index.js",
   "license": "MIT",
   "author": "choewy",
   "homepage": "https://github.com/choewy/nestjs-kafka#readme",
