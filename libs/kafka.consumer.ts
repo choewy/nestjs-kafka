@@ -1,6 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { Consumer, ConsumerRunConfig, ConsumerSubscribeTopics, Kafka } from 'kafkajs';
-import { EachMessagePayload, EachBatchPayload } from 'kafkajs';
+import { Consumer, ConsumerRunConfig, ConsumerSubscribeTopics, Kafka, EachMessagePayload, EachBatchPayload } from 'kafkajs';
 
 import { createKafkaMessageEvent, emitter } from './constants';
 import { OnKafkaHandlerReturnType } from './decorators/types';

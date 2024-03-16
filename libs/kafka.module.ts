@@ -9,15 +9,24 @@ import { KafkaProducer } from './kafka.producer';
 
 @Module({})
 export class KafkaModule {
-  static register({ global, producer, consumer, admin, ...kafkaOptions }: KafkaModuleOptions): DynamicModule {
+  static register({ global, producer, admin, consumer, ...kafkaOptions }: KafkaModuleOptions): DynamicModule {
     const kafka = new Kafka({ ...kafkaOptions, logCreator: createKafkaLogger });
     const providers: Array<Type<any> | Provider> = [];
 
-    if (producer) {
+    if (producer?.use) {
       providers.push({
         provide: KafkaProducer,
         useFactory() {
           return new KafkaProducer(kafka, producer);
+        },
+      });
+    }
+
+    if (admin?.use) {
+      providers.push({
+        provide: KafkaAdmin,
+        useFactory() {
+          return new KafkaAdmin(kafka, admin);
         },
       });
     }
@@ -27,15 +36,6 @@ export class KafkaModule {
         provide: KafkaConsumer,
         useFactory() {
           return new KafkaConsumer(kafka, consumer);
-        },
-      });
-    }
-
-    if (admin) {
-      providers.push({
-        provide: KafkaAdmin,
-        useFactory() {
-          return new KafkaAdmin(kafka, admin);
         },
       });
     }

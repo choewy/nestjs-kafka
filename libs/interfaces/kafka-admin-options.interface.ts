@@ -1,3 +1,5 @@
 import { AdminConfig } from 'kafkajs';
 
-export interface KafkaAdminOptions extends AdminConfig {}
+export interface KafkaAdminOptions extends AdminConfig {
+  use: boolean;
+}
