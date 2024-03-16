@@ -28,5 +28,6 @@ jobs:
           git config --local user.name "$name"
           npm version $tag
           npm ci
-          npm build
+          npm run build
           npm publish
+          git push origin master
