@@ -9,7 +9,10 @@ import { ProducerController } from './producer.controller';
     KafkaModule.register({
       clientId: 'kafka-consumer',
       brokers: ['localhost:29092'],
-      producer: { allowAutoTopicCreation: true },
+      producer: {
+        use: true,
+        allowAutoTopicCreation: true,
+      },
     }),
   ],
   controllers: [ProducerController],
