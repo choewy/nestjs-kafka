@@ -25,12 +25,12 @@ npm run start:dev
 ```
 
 ```bash
-# send a message(Buffer("hi, message topic 1")) to topic-1
-curl http://localhost:3000/producer/1
+# send a message(Buffer("hi, message topic 1")) to message-topic-1
+curl http://localhost:3000/producer/message/1
 
-# send a message(String("hi, message topic 2")) to topic-2
-curl http://localhost:3000/producer/2
+# send a message(String("hi, message topic 2")) to message-topic-2
+curl http://localhost:3000/producer/message/2
 
-# send a message(String('{"message": "hi, message topic 3"}')) to topic-2
-curl http://localhost:3000/producer/3
+# send a message(String('{"message": "hi, message topic 3"}')) to message-topic-3
+curl http://localhost:3000/producer/message/3
 ```
