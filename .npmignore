@@ -1,4 +1,5 @@
 *
-!/dist
-!/package.json
-!/LICENSE
+
+!dist/**
+!package.json
+!LICENSE
