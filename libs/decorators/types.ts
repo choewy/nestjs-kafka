@@ -1,5 +1,12 @@
+import { Type } from '@nestjs/common';
+
+export type OnKafkaContextType = {
+  getClass(): Type<any> | null;
+  getHandler(): Type<any> | null;
+};
+
 export type OnKafkaHandlerReturnType<T = any> = {
-  handler: string;
+  context: OnKafkaContextType;
   value: T | null;
   error: Error | null;
 };

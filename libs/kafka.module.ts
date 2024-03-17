@@ -1,4 +1,5 @@
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
+import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { Kafka } from 'kafkajs';
 
 import { createKafkaLogger } from './constants';
@@ -33,14 +34,19 @@ export class KafkaModule {
 
     if (consumer) {
       providers.push({
+        inject: [EventEmitter2],
         provide: KafkaConsumer,
-        useFactory() {
-          return new KafkaConsumer(kafka, consumer);
+        useFactory(eventEmitter: EventEmitter2) {
+          return new KafkaConsumer(kafka, consumer, eventEmitter);
         },
       });
     }
 
-    const dynamicModule: DynamicModule = { global, module: KafkaModule };
+    const dynamicModule: DynamicModule = {
+      global,
+      imports: [EventEmitterModule.forRoot({ global: false })],
+      module: KafkaModule,
+    };
 
     if (providers.length > 0) {
       dynamicModule.providers = providers;

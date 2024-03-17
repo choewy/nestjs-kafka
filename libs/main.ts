@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { KafkaMessageParam, OnKafkaMessage } from './decorators';
+import { KafkaMessage } from './implements';
 import { KafkaModule } from './kafka.module';
 import { KafkaProducer } from './kafka.producer';
 
@@ -32,9 +33,8 @@ class AppModule {
   }
 
   @OnKafkaMessage('message')
-  async handleMessage(@KafkaMessageParam() message1: any, @KafkaMessageParam() message2: any) {
-    console.log({ message1, message2 });
-    return 'message';
+  async handleMessage(@KafkaMessageParam() message: KafkaMessage) {
+    return message;
   }
 }
 
