@@ -13,9 +13,6 @@
   "bugs": {
     "url": "https://github.com/choewy/nestjs-kafka/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "keywords": [
     "nestjs",
     "nestjs/kafka",
