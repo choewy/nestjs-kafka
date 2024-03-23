@@ -10,7 +10,7 @@ import { KafkaProducer } from './kafka.producer';
 
 @Module({})
 export class KafkaModule {
-  static register({ global, producer, admin, consumer, ...kafkaOptions }: KafkaModuleOptions): DynamicModule {
+  static forRoot({ producer, admin, consumer, ...kafkaOptions }: KafkaModuleOptions): DynamicModule {
     const kafka = new Kafka({ ...kafkaOptions, logCreator: createKafkaLogger });
     const providers: Array<Type<any> | Provider> = [];
 
@@ -43,7 +43,6 @@ export class KafkaModule {
     }
 
     const dynamicModule: DynamicModule = {
-      global,
       imports: [EventEmitterModule.forRoot({ global: false })],
       module: KafkaModule,
     };
@@ -56,7 +55,49 @@ export class KafkaModule {
     return dynamicModule;
   }
 
-  static async registerAsync(moduleAsyncOptions: KafkaModuleAsyncOptions): Promise<DynamicModule> {
-    return this.register(await moduleAsyncOptions.useFactory(...moduleAsyncOptions.inject));
+  static async forRootAsync(moduleAsyncOptions: KafkaModuleAsyncOptions): Promise<DynamicModule> {
+    const providers: Provider[] = [
+      {
+        inject: [...moduleAsyncOptions.inject],
+        provide: KafkaAdmin,
+        async useFactory(...injects) {
+          const options = await moduleAsyncOptions.useFactory(...injects);
+
+          if (options.admin?.use) {
+            return new KafkaAdmin(new Kafka({ ...options, logCreator: createKafkaLogger }), options.admin);
+          }
+        },
+      },
+      {
+        inject: moduleAsyncOptions.inject,
+        provide: KafkaProducer,
+        async useFactory(...injects) {
+          const options = await moduleAsyncOptions.useFactory(...injects);
+
+          if (options.producer?.use) {
+            return new KafkaProducer(new Kafka({ ...options, logCreator: createKafkaLogger }), options.producer);
+          }
+        },
+      },
+      {
+        inject: [EventEmitter2, ...moduleAsyncOptions.inject],
+        provide: KafkaConsumer,
+        async useFactory(eventEmitter: EventEmitter2, ...injects) {
+          const options = await moduleAsyncOptions.useFactory(...injects);
+
+          if (options.consumer) {
+            return new KafkaConsumer(new Kafka({ ...options, logCreator: createKafkaLogger }), options.consumer, eventEmitter);
+          }
+        },
+      },
+    ];
+
+    return {
+      global: true,
+      imports: [EventEmitterModule.forRoot({ global: false })],
+      module: KafkaModule,
+      providers,
+      exports: providers,
+    };
   }
 }

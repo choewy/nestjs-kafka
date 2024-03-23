@@ -1,5 +1,7 @@
-import { KafkaMessage, KafkaMessageParam, KafkaMessagePayload, KafkaMessagePayloadParam, OnKafkaMessage } from '@choewy/nestjs-kafka';
 import { Injectable } from '@nestjs/common';
+
+import { KafkaMessageParam, KafkaMessagePayloadParam, OnKafkaMessage } from '../../decorators';
+import { KafkaMessage, KafkaMessagePayload } from '../../implements';
 
 @Injectable()
 export class ConsumerService {

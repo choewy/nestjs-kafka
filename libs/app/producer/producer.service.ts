@@ -1,5 +1,6 @@
-import { KafkaProducer } from '@choewy/nestjs-kafka';
 import { Injectable } from '@nestjs/common';
+
+import { KafkaProducer } from '../../kafka.producer';
 
 @Injectable()
 export class ProducerService {

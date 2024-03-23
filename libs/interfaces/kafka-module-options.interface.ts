@@ -9,7 +9,6 @@ export interface KafkaModuleOptions extends KafkaConfig {
   consumer?: KafkaConsumerOptions;
   producer?: KafkaProducerOptions;
   admin?: KafkaAdminOptions;
-  global?: boolean;
 }
 
 export interface KafkaModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {

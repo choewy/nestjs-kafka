@@ -1,47 +1,13 @@
-import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { KafkaMessageParam, OnKafkaMessage } from './decorators';
-import { KafkaMessage } from './implements';
-import { KafkaModule } from './kafka.module';
-import { KafkaProducer } from './kafka.producer';
-
-@Module({
-  imports: [
-    KafkaModule.register({
-      clientId: 'KAFKA_CLIENT',
-      brokers: ['localhost:29092'],
-      producer: {
-        use: true,
-        allowAutoTopicCreation: true,
-      },
-      consumer: {
-        groupId: 'KAFKA_CONSUMER',
-        subscriptions: { topics: ['message'] },
-      },
-    }),
-  ],
-})
-class AppModule {
-  constructor(private readonly kafkaProducer: KafkaProducer) {}
-
-  async onApplicationBootstrap() {
-    await this.kafkaProducer.send({
-      topic: 'message',
-      messages: [{ value: 'hello' }],
-    });
-  }
-
-  @OnKafkaMessage('message')
-  async handleMessage(@KafkaMessageParam() message: KafkaMessage) {
-    return message;
-  }
-}
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.createApplicationContext(AppModule);
+  const app = await NestFactory.create(AppModule);
 
   app.enableShutdownHooks();
+
+  await app.listen(3000);
 }
 
 bootstrap();
