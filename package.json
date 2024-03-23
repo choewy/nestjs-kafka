@@ -1,6 +1,6 @@
 {
   "name": "@choewy/nestjs-kafka",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "NestJS Kafka",
   "main": "dist/libs/index.js",
   "license": "MIT",
